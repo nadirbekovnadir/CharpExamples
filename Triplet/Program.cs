@@ -132,6 +132,7 @@ namespace Triplet
             char[] temp = new char[n];
             for (int i = leftBorder; i < rightBorder; i++)
             {
+                // Налезание на соседний блок позволит учесть триплеты, находящиеся на стыке блоков
                 for (int j = 0; j < n; j++)
                     temp[j] = text[i + j];
 
