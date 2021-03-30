@@ -92,11 +92,11 @@ namespace Triplet
                 if (hashTable[i] == 0)
                     continue;
 
-                if (i != tripletsToPrint - 1 && i != 0)
+                if (i != 0)
                     Console.Write(", ");
 
                 // Данная строка оставлена, чтобы можно посмотреть количество каждого из триплетов
-                //Console.Write("{0} - {1}", new String(HashHelper.GetString(valuesTable[i])), hashTable[i]);
+                // Console.Write("{0} - {1}", new String(HashHelper.GetString(valuesTable[i])), hashTable[i]);
 
                 Console.Write(new String(HashHelper.GetString(valuesTable[i])));
             }
