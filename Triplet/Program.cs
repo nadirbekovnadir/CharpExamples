@@ -52,8 +52,8 @@ namespace Triplet
             sw.Start();
 
             // Сохранение пути до файла из параметров
-            //filePath = args[0];
-            filePath = "TestFileUtf8.txt";
+            filePath = args[0];
+            // filePath = "TestFileUtf8.txt";
 
             // Инициализация класса для подсчета хэшей
             HashHelper.Init(p, n);
