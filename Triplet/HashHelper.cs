@@ -13,8 +13,10 @@ namespace Triplet
         // Длина строки
         static int n;
 
-        // Изменено на кириллицу (только буквы)
-        const char offs = (char)('А' - 1);
+        // Диапазон используемых значений
+        // Можно было из него вычислять размер таблицы (p)
+        const char leftExcBorder = (char)('А' - 1);
+        const char rightExcBorder = (char)('я' + 1);
         // Для ускорения формирования хэша и обратного преобразования
         static int[] ps;
 
@@ -36,7 +38,7 @@ namespace Triplet
         {
             int h = 0;
             for (int i = 0; i < n; ++i)
-                h += ps[i] * (s[i] - offs);
+                h += ps[i] * (s[i] - leftExcBorder);
 
             return h;
         }
@@ -50,10 +52,18 @@ namespace Triplet
             {
                 chars[i] = (char)(h / ps[i]);
                 h -= ps[i] * chars[i];
-                chars[i] += offs;
+                chars[i] += leftExcBorder;
             }
 
             return chars;
+        }
+
+        public static bool VerifyChar(in char c)
+        {
+            if (c > leftExcBorder && c < rightExcBorder)
+                return true;
+
+            return false;
         }
     }
 }

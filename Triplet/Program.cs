@@ -52,8 +52,8 @@ namespace Triplet
             sw.Start();
 
             // Сохранение пути до файла из параметров
-            filePath = args[0];
-            // filePath = "TestFileUtf8.txt";
+            // filePath = args[0];
+            filePath = "TestFileUtf8.txt";
 
             // Инициализация класса для подсчета хэшей
             HashHelper.Init(p, n);
@@ -143,17 +143,34 @@ namespace Triplet
 
             // Запись всех триплетов в таблицу хэшей
             char[] temp = new char[n];
-            for (int i = leftBorder; i < rightBorder; i++)
+            bool isCorrect = true;
+            // Небольшое ускорение
+            int i, j;
+            for (i = leftBorder; i < rightBorder; ++i)
             {
+                isCorrect = true;
                 // Налезание на соседний блок позволит учесть триплеты, находящиеся на стыке блоков
-                for (int j = 0; j < n; j++)
+                for (j = 0; j < n; ++j)
+                {
+                    // Проверяем валидность символа
+                    if (!HashHelper.VerifyChar(text[i + j]))
+                    {
+                        // Чтобы не рассматривать почем зря интервал до
+                        // некорректного символа осуществим смещение
+                        i += j;
+                        isCorrect = false;
+                        break;
+                    }
+
                     temp[j] = text[i + j];
+                }
 
                 // Чтобы не использовать семафоры, мютексы и прочие, требующие умственного напряжение, методы,
                 // воспользовался простейшей атомарной операцией
                 // Можно было в качестве альтернативы пользоваться отдельной хэш-таблицей для каждого потока, 
                 // а затем осуществлять их слияние в единую
-                Interlocked.Increment(ref hashTable[HashHelper.GetHash(temp)]);
+                if (isCorrect)
+                    Interlocked.Increment(ref hashTable[HashHelper.GetHash(temp)]);
             }
         }
     }
